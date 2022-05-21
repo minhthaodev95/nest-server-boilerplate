@@ -1,0 +1,14 @@
+{
+    "error": {
+        "fields": {
+            "array_unique": "The items of the array must be unique",
+            "unique": "The item must be unique",
+            "max_length": "The length of this field is larger than allowed",
+            "is_not_empty": "This field cannot be empty",
+            "is_string": "This fild must be a string",
+            "is_enum": "This field must be an enum",
+            "array_min_size": "This field cannot be empty",
+            "is_array": "This field must be an array"
+        }
+    }
+}
