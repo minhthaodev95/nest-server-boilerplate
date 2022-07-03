@@ -63,23 +63,23 @@ export class ApiConfigService {
     return this.getString('FALLBACK_LANGUAGE').toLowerCase();
   }
 
-  get cacheModuleConfig() {
-    return {
-      host: this.getString('REDIS_HOST'),
-      port: this.getNumber('REDIS_PORT'),
-      pass: this.getNumber('REDIS_PASSS'),
-      ttlOtp: this.getNumber('TTL_OTP'),
-    };
-  }
+  // get cacheModuleConfig() {
+  //   return {
+  //     host: this.getString('REDIS_HOST'),
+  //     port: this.getNumber('REDIS_PORT'),
+  //     pass: this.getNumber('REDIS_PASSS'),
+  //     ttlOtp: this.getNumber('TTL_OTP'),
+  //   };
+  // }
 
-  get mailConfig() {
-    return {
-      host: this.getString('MAIL_HOST'),
-      user: this.getString('MAIL_USER'),
-      pass: this.getString('MAIL_PASS'),
-      from: this.getString('MAIL_FROM'),
-    };
-  }
+  // get mailConfig() {
+  //   return {
+  //     host: this.getString('MAIL_HOST'),
+  //     user: this.getString('MAIL_USER'),
+  //     pass: this.getString('MAIL_PASS'),
+  //     from: this.getString('MAIL_FROM'),
+  //   };
+  // }
 
   private getDialect(key: string): Dialect {
     const value = this.get(key).replace(/\\n/g, '\n');
@@ -109,16 +109,16 @@ export class ApiConfigService {
     return this.getBoolean('ENABLE_DOCUMENTATION');
   }
 
-  get natsEnabled(): boolean {
-    return this.getBoolean('NATS_ENABLED');
-  }
+  // get natsEnabled(): boolean {
+  //   return this.getBoolean('NATS_ENABLED');
+  // }
 
-  get natsConfig() {
-    return {
-      host: this.getString('NATS_HOST'),
-      port: this.getNumber('NATS_PORT'),
-    };
-  }
+  // get natsConfig() {
+  //   return {
+  //     host: this.getString('NATS_HOST'),
+  //     port: this.getNumber('NATS_PORT'),
+  //   };
+  // }
 
   get authConfig() {
     return {

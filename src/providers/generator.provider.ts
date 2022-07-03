@@ -1,4 +1,5 @@
 import { v1 as uuid } from 'uuid';
+import bcrypt from 'bcrypt';
 
 import type { Optional } from '../types';
 
@@ -49,6 +50,24 @@ export class GeneratorProvider {
     }
 
     return text;
+  }
+
+  static generateHash(password: string): Promise<string> {
+    return bcrypt.hash(password, 10);
+  }
+
+  /**
+   * validate text with hash
+   * @param {string} password
+   * @param {string} hash
+   * @returns {Promise<boolean>}
+   */
+   static validateHash(password: string, hash: Optional<string>): Promise<boolean> {
+    if (!password || !hash) {
+      return Promise.resolve(false);
+    }
+
+    return bcrypt.compare(password, hash);
   }
 
   /**

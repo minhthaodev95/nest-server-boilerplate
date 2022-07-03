@@ -40,16 +40,16 @@ const providers = [
   imports: [
     HttpModule,
     ConfigModule,
-    CacheModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ApiConfigService) => ({
-        store: redisStore,
-        host: configService.cacheModuleConfig.host,
-        port: configService.cacheModuleConfig.port,
-        pass: configService.cacheModuleConfig.pass,
-      }),
-      inject: [ApiConfigService],
-    }),
+    // CacheModule.registerAsync({
+    //   imports: [ConfigModule],
+    //   useFactory: (configService: ApiConfigService) => ({
+    //     store: redisStore,
+    //     host: configService.cacheModuleConfig.host,
+    //     port: configService.cacheModuleConfig.port,
+    //     pass: configService.cacheModuleConfig.pass,
+    //   }),
+    //   inject: [ApiConfigService],
+    // }),
   ],
   exports: [...providers, HttpModule],
 })

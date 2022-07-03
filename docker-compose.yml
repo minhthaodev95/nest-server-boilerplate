@@ -14,49 +14,77 @@ services:
     links:
       - postgres
 
+  # redis:
+  #   image: "redis:alpine"
+  #   ports:
+  #     - "6379:6379"
+
+  # redis-commander:
+  #   image: rediscommander/redis-commander:latest
+  #   environment:
+  #     - REDIS_HOSTS=local:redis:6379
+  #   ports:
+  #     - "8081:8081"
+  #   depends_on:
+  #     - redis
   redis:
-    image: "redis:alpine"
-    ports:
-      - "6379:6379"
-
-  redis-commander:
-    image: rediscommander/redis-commander:latest
+    container_name: redis
+    restart: unless-stopped
+    image: 'bitnami/redis:5.0'
     environment:
-      - REDIS_HOSTS=local:redis:6379
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - REDIS_AOF_ENABLED=no
+    networks:
+      - app
     ports:
-      - "8081:8081"
-    depends_on:
-      - redis
+      - '6379:6379'
+    volumes:
+      - './redis-data:/bitnami/redis/data'
 
-  postgres:
-    image: postgres
-    container_name: postgres
+  mysql:
+    image: mysql:5.7
+    networks:
+      - app
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=${DATABASE_PASSWORD:-secret}
+      - MYSQL_DATABASE=${DATABASE_NAME:-ads-stock}
+    container_name: mysql
+    ports:
+      - $DATABASE_EXPOSE_PORT:3306
     restart: always
-    environment:
-      POSTGRES_PASSWORD: postgres
-      TZ: 'GMT'
-      PGTZ: 'GMT'
-    ports:
-      - "5432:5432"
-    volumes:
-      - /data/postgres:/data/postgres
-    env_file:
-      - .env
-    networks:
-      - postgres
-  pgadmin:
-    links:
-      - postgres:postgres
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    ports:
-      - "8080:80"
-    volumes:
-      - /data/pgadmin:/root/.pgadmin
-    env_file:
-      - .env
-    networks:
-      - postgres
+
+  # postgres:
+  #   image: postgres
+  #   container_name: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #     TZ: 'GMT'
+  #     PGTZ: 'GMT'
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - /data/postgres:/data/postgres
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - postgres
+  # pgadmin:
+  #   links:
+  #     - postgres:postgres
+  #   container_name: pgadmin
+  #   image: dpage/pgadmin4
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - /data/pgadmin:/root/.pgadmin
+  #   env_file:
+  #     - .env
+  #   networks:
+  #     - postgres
 
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.1.0
@@ -127,4 +155,6 @@ networks:
   postgres:
     driver: bridge
   elastic:
+    driver: bridge
+  app:
     driver: bridge
